@@ -30,10 +30,13 @@ Spork.prefork do
     # examples within a transaction, remove the following line or assign false
     # instead of true.
     config.use_transactional_fixtures = true
+    
+    ActiveSupport::Dependencies.clear
+    ActiveRecord::Base.instantiate_observers
   end
   
 end
-# 
-# Spork.each_run do
-#   # This code will be run each time you run your specs.
-# end
+
+Spork.each_run do
+  SampleApp::Application.reload_routes!
+end
