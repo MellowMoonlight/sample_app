@@ -32,11 +32,10 @@ Spork.prefork do
     config.use_transactional_fixtures = true
     
     ActiveSupport::Dependencies.clear
-    ActiveRecord::Base.instantiate_observers
   end
   
 end
 
 Spork.each_run do
-  SampleApp::Application.reload_routes!
+  # SampleApp::Application.reload_routes!
 end

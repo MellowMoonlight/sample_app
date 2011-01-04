@@ -6,7 +6,7 @@ gem 'rails', '3.0.3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
-gem 'haml'
+gem 'gravatar_image_tag'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -31,9 +31,12 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'webrat'
-  gem 'spork'
   gem 'autotest'
+  gem 'autotest-rails-pure'
+  gem 'spork'
   gem 'annotate-models'
+  gem 'factory_girl_rails'
+  # gem 'taps'
   # gem 'autotest-rails-pure', '>=4.1.0'
   # gem 'autotest-fsevent', '>= 0.2.2'
   # gem 'autotest-growl', '>= 0.2.4'
