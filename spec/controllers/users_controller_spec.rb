@@ -63,6 +63,12 @@ describe UsersController do
         post :create, :user => @attr
         response.should render_template('new')
       end
+      it "should reset password & password_confirmation" do
+        post :create, :user => @attr.merge(:password => "To be reset",
+                                           :password_confirmation => "To be reset")
+        assigns(:user).password.should be_empty 
+        assigns(:user).password_confirmation.should be_empty 
+      end
     end
     
     describe "success" do
