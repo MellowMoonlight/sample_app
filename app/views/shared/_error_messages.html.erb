@@ -1,8 +1,9 @@
-<% if @user.errors.any? %>
+<% if object.errors.any? %>
 <div id="error_explanation">
-  <h2><%= @user.errors.count %> 個の入力エラーがあります。</h2>
+  <h2><%= object.class.to_s.underscore.humanize.downcase %>: 
+  <%= object.errors.count %> 個の入力エラーがあります。</h2>
   <ul>
-    <% @user.errors.full_messages.each do |msg| %>
+    <% object.errors.full_messages.each do |msg| %>
     <li><%= msg %></li>
     <% end %>
   </ul>

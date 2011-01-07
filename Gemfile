@@ -7,7 +7,7 @@ gem 'rails', '3.0.3'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'gravatar_image_tag'
-
+gem 'will_paginate', '3.0.pre2'
 # Use unicorn as the web server
 # gem 'unicorn'
 
@@ -27,18 +27,21 @@ gem 'gravatar_image_tag'
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
-group :development, :test do
+
+group :development do
+  gem 'rspec-rails' 
+  gem 'annotate-models'
+  gem 'faker'
+end
+
+group :test do
   gem 'rspec'
-  gem 'rspec-rails'
   gem 'webrat'
   gem 'autotest'
   gem 'autotest-rails-pure'
+  gem 'autotest-fsevent'
+  gem 'autotest-growl'
   gem 'spork'
-  gem 'annotate-models'
   gem 'factory_girl_rails'
-  # gem 'taps'
-  # gem 'autotest-rails-pure', '>=4.1.0'
-  # gem 'autotest-fsevent', '>= 0.2.2'
-  # gem 'autotest-growl', '>= 0.2.4'
 end
 
