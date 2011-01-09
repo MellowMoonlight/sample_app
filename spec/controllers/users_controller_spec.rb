@@ -45,6 +45,15 @@ describe UsersController do
         response.should have_selector("a", :href => "/users?page=2", :content=>"2")
         response.should have_selector("a", :href=>"/users?page=2", :content=>"Next")
       end
+      it "should not display the 'delete' link for non-admin user" do
+        get :index
+        response.should_not have_selector("a", :content => "delete")
+      end
+      it "should display the 'delete' link for admin user" do
+        @user.toggle!(:admin)
+        get :index
+        response.should have_selector("a", :content => "delete")
+      end
     end
   end
   
@@ -57,6 +66,14 @@ describe UsersController do
     it "should have the right title" do
       get :new
       response.should have_selector("title", :content => "Sign up")
+    end
+    
+    describe "signed-in user" do
+      it "should be redirected to root" do
+        test_sign_in(Factory(:user))
+        post :create, :user => {}
+        response.should redirect_to(root_path)
+      end
     end
   end
   
@@ -139,6 +156,13 @@ describe UsersController do
       it "should have a welcome message" do
         post :create, :user => @attr
         flash[:success].should =~ /welcome to the sample app/i
+      end
+    end
+    
+    describe "signed-in users" do
+      it "should be redirected to root" do
+        test_sign_in(Factory(:user))
+        
       end
     end
   end
@@ -259,16 +283,21 @@ describe UsersController do
     end
     describe "as an admin user" do
       before(:each) do
-        admin = Factory(:user, :email => "admin@example.com", :admin=>true)
-        test_sign_in(admin)
+        @admin = Factory(:user, :email => "admin@example.com", :admin=>true)
+        test_sign_in(@admin)
       end
       it "should destroy the user" do
         lambda do
-          delete :destroy, :id => @user
+          delete :destroy, :id => @user.id
         end.should change(User, :count).by(-1)
       end
+      it "should not destroy the self" do
+        lambda do
+          delete :destroy, :id => @admin.id
+        end.should_not change(User, :count)
+      end
       it "should redirect to the users page" do
-        delete :destroy, :id => @user
+        delete :destroy, :id => @user.id
         response.should redirect_to(users_path)
       end
     end
