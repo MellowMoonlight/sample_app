@@ -28,6 +28,9 @@ class User < ActiveRecord::Base
                         :confirmation => true,
                         :length => { :within => 6..40 }
                         
+
+  has_many  :microposts, :dependent => :destroy
+
   before_save :encrypt_password
 
   # Return true if the user's password matches the submitted password.
@@ -46,6 +49,10 @@ class User < ActiveRecord::Base
   def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)  
     (user && user.salt == cookie_salt) ? user : nil
+  end
+  
+  def feed
+    Micropost.where("user_id = ?", id)
   end
   
   private
